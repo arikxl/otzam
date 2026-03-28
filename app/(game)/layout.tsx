@@ -1,3 +1,4 @@
+import GameFooter from "@/components/GameFooter";
 import GameHeader from "@/components/GameHeader";
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
@@ -16,6 +17,9 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             <div className="h-full w-full">
                 {children}
             </div>
+
+
+            <GameFooter />
         </div>
     );
 }
