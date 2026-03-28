@@ -1,15 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  /* צבעי האוצר והמסע */
+
+  --gold-main: #D4AF37;
+  --gold-hover: #F5C71A;
+  /* זהב בהיר יותר למעבר עכבר */
+  --gold-glow: rgba(212, 175, 55, 0.5);
+
+  --persian-blue: #00E5E5;
+  --persian-glow: rgba(0, 229, 229, 0.4);
+
+
+
+  --glass-white: rgba(255, 255, 255, 0.8);
 }
 
 @theme inline {
+  --color-primary: var(--gold-main);
+  --color-primary-foreground: #000000;
+  /* טקסט שחור מעל זהב */
+  --color-secondary: var(--persian-blue);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-gold: var(--gold-main);
+  --color-gold-hover: var(--gold-hover);
+  --color-persian: var(--persian-blue);
+
+  /* רישום הצבעים לשימוש כ-classes (למשל text-gold-treasure) */
+
+  --color-glass: var(--glass-white);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +47,22 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* הוספת dir=rtl תטופל ב-layout, אבל כאן נוודא פונט קריא */
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* מחלקת עזר לאפקט הזכוכית שדיברנו עליו */
+.glass-card {
+  background: var(--glass-white);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-header {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  /* פס זהב עדין למטה */
 }

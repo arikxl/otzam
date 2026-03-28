@@ -1,65 +1,93 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useClerk, useUser, useAuth } from "@clerk/nextjs";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+export default function LoginPage() {
+  const { openSignIn } = useClerk();
+  const { user } = useUser();
+  const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+
+  const handleMainActionButton = () => {
+    if (isSignedIn) {
+      router.push("/map"); // מעבר למפה
+    } else {
+      openSignIn(); // פתיחת התחברות
+    }
+  };
+
+  if (!isLoaded) return null;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="relative h-full w-full flex flex-col justify-between p-8 overflow-hidden font-sans">
+
+      {/* 1. תמונת הרקע (מקורית) */}
+      <div className="absolute inset-0 z-0">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src="/imgs/bg1.png"
+          alt="Ancient Persia Background"
+          fill
           priority
+          sizes="(max-width: 450px) 100vw, 450px"
+          className="object-cover"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        {/* שכבת האפלה (מומלץ להחשיך קצת יותר עבור זהב) */}
+        <div className="absolute inset-0 bg-black/50" />
+      </div>
+
+      {/* 2. לוגו המשחק */}
+      <header className="z-10 mt-16 flex justify-center w-full">
+        <div className="relative w-full max-w-70 aspect-square">
+          <Image
+            src="/logos/logo1-nob.png"
+            alt="לוגו המסע לאירן"
+            fill
+            priority
+            sizes="(max-width: 450px) 100vw, 280px"
+            className="object-contain drop-shadow-[0_4px_30px_rgba(212,175,55,0.4)]" // צל זהוב עדין ללוגו
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </header>
+
+      {/* 3. חלק מרכזי: ברכה דינמית וכפתור מוזהב */}
+      <section className="z-10 flex flex-col items-center w-full gap-6 px-4">
+
+        {isSignedIn && user?.firstName && (
+          <div className="text-center mb-2 animate-fade-in">
+            <h2 className="text-3xl font-bold text-white drop-shadow-md">
+              סלאם, <span className="text-gold">{user.firstName}</span>!
+            </h2>
+          </div>
+        )}
+
+        {/* --- הכפתור המוזהב החדש --- */}
+        <button
+          onClick={handleMainActionButton}
+          className="w-full py-5 px-10 bg-gold hover:bg-gold-hover text-black text-2xl font-bold rounded-2xl transition-all active:scale-95 shadow-[0_0_25px_rgba(212,175,55,0.5)] border border-white/20 backdrop-blur-sm cursor-pointer"
+        >
+          {isSignedIn ? "נצא למסע" : "התחברות"}
+        </button>
+
+
+      </section>
+
+      {/* 4. חלק תחתון: קרדיט (נשאר אותו דבר) */}
+      <footer className="z-10 text-center mb-6">
+        <a
+          href="https://www.linkedin.com/in/arik-alexandrov/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex justify-center items-center gap-1 transition-opacity opacity-80 hover:opacity-100"
+        >
+          <span className="text-sm font-semibold text-gold border-b border-transparent group-hover:border-gold transition-all">
+           arikxl
+          </span>
+          <span className="text-xs text-white/60 tracking-widest">Developed by</span>
+        </a>
+      </footer>
+
     </div>
   );
 }
