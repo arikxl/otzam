@@ -66,3 +66,42 @@ body {
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   /* פס זהב עדין למטה */
 }
+
+
+/* src/app/globals.css */
+
+
+
+  /* הגדרת מחלקה מותאמת אישית לפס גלילה מינימלי */
+  .custom-scrollbar {
+    /* עבור Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-main) transparent;
+  }
+
+  /* עבור Chrome, Edge ו-Safari */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    /* דק מאוד */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    /* מסילה שקופה שלא תפריע לרקע */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--gold-main);
+    /* הצבע הזהוב שלנו */
+    border-radius: 20px;
+    /* קצוות עגולים */
+    border: 1px solid transparent;
+    /* רווח קטן */
+    background-clip: content-box;
+    opacity: 0.5;
+  }
+
+  /* אפקט קטן כשנוגעים/מרחפים על פס הגלילה */
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--gold-hover);
+  }
